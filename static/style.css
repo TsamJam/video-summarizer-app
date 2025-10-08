@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+}
+
+h1 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+p {
+    color: #555;
+    margin-bottom: 30px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+input[type="text"],
+input[type="url"],
+input[type="file"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+label {
+    font-weight: 500;
+    text-align: left;
+    color: #444;
+}
+
+button {
+    background: linear-gradient(90deg, #4a90e2, #50e3c2);
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
+}
+
+button:disabled {
+    background: #bdc3c7;
+    cursor: not-allowed;
+}
+
+#status {
+    margin-top: 20px;
+    font-weight: 500;
+    padding: 12px;
+    border-radius: 8px;
+}
+.status-processing { color: #2980b9; background-color: #eaf3fb; }
+.status-success { color: #27ae60; background-color: #e9f7ef; }
+.status-error { color: #c0392b; background-color: #fbeeeC; }
+
+#results {
+    margin-top: 30px;
+    text-align: left;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #eee;
+}
+
+#results h2, #results h3 {
+    color: #34495e;
+    border-bottom: 2px solid #50e3c2;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+}
+
+#frame-descriptions {
+    list-style-type: disc;
+    padding-left: 20px;
+    line-height: 1.6;
+}
+
+.hidden {
+    display: none;
+}

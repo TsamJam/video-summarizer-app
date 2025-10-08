@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Summarizer</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🎥 Video Summarizer AI</h1>
+        <p>Enter an Instagram (or other compatible) Reel URL to get a summary based on its key frames.</p>
+        
+        <form id="summarize-form">
+            <input type="text" id="api_key" name="api_key" placeholder="Enter your Google AI API Key" required>
+            <input type="url" id="video_url" name="video_url" placeholder="Enter Video URL (e.g., Instagram Reel)" required>
+            
+            <label for="cookies_file">Upload cookies.txt File:</label>
+            <input type="file" id="cookies_file" name="cookies_file" accept=".txt" required>
+            
+            <button type="submit" id="submit-button">Summarize Video</button>
+        </form>
+
+        <div id="status"></div>
+        
+        <div id="results" class="hidden">
+            <h2>Summary</h2>
+            <p id="summary-text"></p>
+            <h3>Frame-by-Frame Analysis</h3>
+            <ul id="frame-descriptions"></ul>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('summarize-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const form = event.target;
+            const formData = new FormData(form);
+            const statusDiv = document.getElementById('status');
+            const resultsDiv = document.getElementById('results');
+            const submitButton = document.getElementById('submit-button');
+
+            // Reset UI
+            statusDiv.textContent = 'Starting process... Please wait.';
+            statusDiv.className = 'status-processing';
+            resultsDiv.classList.add('hidden');
+            submitButton.disabled = true;
+            submitButton.textContent = 'Processing...';
+
+            try {
+                statusDiv.textContent = 'Downloading video and extracting frames... This might take a moment.';
+                
+                const response = await fetch('/summarize', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'An unknown error occurred.');
+                }
+                
+                statusDiv.textContent = 'Analysis complete!';
+                statusDiv.className = 'status-success';
+
+                // Display results
+                document.getElementById('summary-text').textContent = data.summary;
+                const descriptionsList = document.getElementById('frame-descriptions');
+                descriptionsList.innerHTML = ''; // Clear previous results
+                data.frame_descriptions.forEach(desc => {
+                    const li = document.createElement('li');
+                    li.textContent = desc;
+                    descriptionsList.appendChild(li);
+                });
+                resultsDiv.classList.remove('hidden');
+
+            } catch (error) {
+                statusDiv.textContent = `Error: ${error.message}`;
+                statusDiv.className = 'status-error';
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Summarize Video';
+            }
+        });
+    </script>
+</body>
+</html>
